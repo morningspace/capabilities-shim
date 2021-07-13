@@ -1,0 +1,75 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: networking.capabilities.morningspace.io
+spec:
+  compositeTypeRef:
+    apiVersion: capabilities.morningspace.io/v1alpha1
+    kind: Networking
+  resources:
+  - base:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: example-kong
+        namespace: operators
+      spec:
+        channel: alpha
+        name: kong
+        source: operatorhubio-catalog
+        sourceNamespace: olm
+    name: subscription
+    patches:
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-kong'
+    readinessChecks:
+    - type: MatchString
+      fieldPath: "status.state"
+      matchString: "AtLatestKnown"
+  - base:
+      apiVersion: charts.helm.k8s.io/v1alpha1
+      kind: Kong
+      metadata:
+        name: example-kong
+        namespace: default
+      spec:
+        proxy:
+          type: NodePort
+        env:
+          prefix: /kong_prefix/
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        ingressController:
+          enabled: true
+          installCRDs: false
+    name: kong
+    patches:
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-kong'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: metadata.namespace
+    - fromFieldPath: spec.proxyType
+      toFieldPath: spec.proxy.type
+    - fromFieldPath: spec.resources.limits.cpu
+      toFieldPath: spec.resources.limits.cpu
+    - fromFieldPath: spec.resources.limits.memory
+      toFieldPath: spec.resources.limits.memory
+    - fromFieldPath: spec.resources.requests.cpu
+      toFieldPath: spec.resources.requests.cpu
+    - fromFieldPath: spec.resources.requests.memory
+      toFieldPath: spec.resources.requests.memory
+    readinessChecks:
+    - type: None

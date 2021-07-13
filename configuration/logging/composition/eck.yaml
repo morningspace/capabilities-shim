@@ -1,0 +1,98 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: logging.capabilities.morningspace.io
+spec:
+  compositeTypeRef:
+    apiVersion: capabilities.morningspace.io/v1alpha1
+    kind: Logging
+  resources:
+  - base:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: example-eck
+        namespace: operators
+      spec:
+        channel: stable
+        name: elastic-cloud-eck
+        source: operatorhubio-catalog
+        sourceNamespace: olm
+    name: subscription
+    patches:
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-eck'
+    readinessChecks:
+    - type: MatchString
+      fieldPath: "status.state"
+      matchString: "AtLatestKnown"
+  - base:
+      apiVersion: elasticsearch.k8s.elastic.co/v1
+      kind: Elasticsearch
+      metadata:
+        name: example-es
+        namespace: default
+      spec:
+        nodeSets:
+        - name: default
+          count: 1
+          config:
+            node.store.allow_mmap: false
+    name: elasticsearch
+    patches:
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-es'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: metadata.namespace
+    - fromFieldPath: spec.esVersion
+      toFieldPath: spec.version
+    readinessChecks:
+    - type: MatchString
+      fieldPath: "status.phase"
+      matchString: "Ready"
+    - type: MatchString
+      fieldPath: "status.health"
+      matchString: "green"
+  - base:
+      apiVersion: kibana.k8s.elastic.co/v1
+      kind: Kibana
+      metadata:
+        name: example-kibana
+        namespace: default
+      spec:
+        count: 1
+        elasticsearchRef:
+          name: example-es
+    name: kibana
+    patches:
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-kibana'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: metadata.namespace
+    - fromFieldPath: spec.kibanaVersion
+      toFieldPath: spec.version
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.elasticsearchRef.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-es'
+    readinessChecks:
+    - type: MatchString
+      fieldPath: "status.associationStatus"
+      matchString: "Established"
+    - type: MatchString
+      fieldPath: "status.health"
+      matchString: "green"

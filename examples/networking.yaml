@@ -1,5 +1,5 @@
 apiVersion: capabilities.morningspace.io/v1alpha1
-kind: Networking
+kind: NetworkingClaim
 metadata:
   name: my-networking-stack
   namespace: default

@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: networking.capabilities.morningspace.io
+  name: networkings.capabilities.morningspace.io
 spec:
   compositeTypeRef:
     apiVersion: capabilities.morningspace.io/v1alpha1
@@ -26,6 +26,8 @@ spec:
       - type: string
         string:
           fmt: '%s-kong'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: metadata.namespace
     readinessChecks:
     - type: MatchString
       fieldPath: "status.state"

@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: logging.capabilities.morningspace.io
+  name: loggings.capabilities.morningspace.io
 spec:
   group: capabilities.morningspace.io
   names:

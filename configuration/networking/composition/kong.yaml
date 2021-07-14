@@ -26,7 +26,7 @@ spec:
       - type: string
         string:
           fmt: '%s-kong'
-    - fromFieldPath: spec.claimRef.namespace
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/operator-namespace]
       toFieldPath: metadata.namespace
     readinessChecks:
     - type: MatchString

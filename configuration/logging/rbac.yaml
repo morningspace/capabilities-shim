@@ -5,9 +5,15 @@ metadata:
   name: capabilities-shim-resources
 rules:
 - apiGroups:
-  - charts.helm.k8s.io
+  - elasticsearch.k8s.elastic.co
   resources:
-  - kongs
+  - elasticsearches
+  verbs:
+  - '*'
+- apiGroups:
+  - kibana.k8s.elastic.co
+  resources:
+  - kibanas
   verbs:
   - '*'
 ---

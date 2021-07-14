@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: capabilities-shim-resources
+  name: networking-capabilities-shim-resources
 rules:
 - apiGroups:
   - charts.helm.k8s.io
@@ -14,11 +14,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: capabilities-shim-resources
+  name: networking-capabilities-shim-resources
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: capabilities-shim-resources
+  name: networking-capabilities-shim-resources
 subjects:
 - kind: ServiceAccount
   namespace: crossplane-system

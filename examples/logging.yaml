@@ -1,6 +1,8 @@
 apiVersion: capabilities.morningspace.io/v1alpha1
-kind: Logging
+kind: LoggingClaim
 metadata:
+  annotations:
+    capabilities.morningspace.io/operator-namespace: operators
   name: my-logging-stack
   namespace: default
 spec:

@@ -36,6 +36,8 @@ spec:
       - type: string
         string:
           fmt: '%s'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
     readinessChecks:
     - type: None
   - base:
@@ -114,7 +116,7 @@ spec:
       transforms:
       - type: string
         string:
-          fmt: 'opreg-%s'
+          fmt: '%s'
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.spec.requests[0].registryNamespace
     - fromFieldPath: metadata.name

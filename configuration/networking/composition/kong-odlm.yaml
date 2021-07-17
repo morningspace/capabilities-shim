@@ -1,0 +1,129 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: networkings.capabilities.morningspace.io
+spec:
+  compositeTypeRef:
+    apiVersion: capabilities.morningspace.io/v1alpha1
+    kind: Networking
+  resources:
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      spec:
+        forProvider:
+          manifest:
+            apiVersion: operator.ibm.com/v1alpha1
+            kind: OperandConfig
+            metadata: {}
+            spec:
+              services:
+              - name: kong
+                spec:
+                  kong: {}
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'opcon-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s'
+    readinessChecks:
+    - type: None
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      spec:
+        forProvider:
+          manifest:
+            apiVersion: operator.ibm.com/v1alpha1
+            kind: OperandRegistry
+            metadata: {}
+            spec:
+              operators:
+              - name: kong
+                channel: alpha
+                packageName: kong
+                scope: public
+                sourceName: operatorhubio-catalog
+                sourceNamespace: olm
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'opreg-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.spec.operators[0].namespace
+    readinessChecks:
+    - type: None
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      spec:
+        forProvider:
+          manifest:
+            apiVersion: operator.ibm.com/v1alpha1
+            kind: OperandRequest
+            metadata: {}
+            spec:
+              requests:
+              - operands:
+                - name: kong
+                  kind: Kong
+                  apiVersion: charts.helm.k8s.io/v1alpha1
+                  spec: {}
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'opreq-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.spec.requests[0].registry
+      transforms:
+      - type: string
+        string:
+          fmt: 'opreg-%s'
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.spec.requests[0].registryNamespace
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.spec.requests[0].operands[0].instanceName
+      transforms:
+      - type: string
+        string:
+          fmt: 'kong-%s'
+    readinessChecks:
+    - type: MatchString
+      fieldPath: status.atProvider.manifest.status.phase
+      matchString: Running

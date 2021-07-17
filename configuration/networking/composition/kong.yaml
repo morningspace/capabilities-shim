@@ -38,8 +38,7 @@ spec:
         string:
           fmt: '%s'
     readinessChecks:
-    - fieldPath: status.atProvider.manifest.status.installedCSV
-      type: NonEmpty
+    - type: None
   - base:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object

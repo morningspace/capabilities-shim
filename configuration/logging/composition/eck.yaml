@@ -38,8 +38,7 @@ spec:
         string:
           fmt: '%s'
     readinessChecks:
-    - fieldPath: status.atProvider.manifest.status.installedCSV
-      type: NonEmpty
+    - type: None
   - base:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
@@ -77,10 +76,10 @@ spec:
     readinessChecks:
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.phase
-      matchString: "Ready"
+      matchString: Ready
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.health
-      matchString: "green"
+      matchString: green
   - base:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
@@ -120,7 +119,7 @@ spec:
     readinessChecks:
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.associationStatus
-      matchString: "Established"
+      matchString: Established
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.health
-      matchString: "green"
+      matchString: green

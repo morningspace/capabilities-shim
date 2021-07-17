@@ -45,25 +45,57 @@ kubectl apply -f configuration/rbac-objects.yaml
 
 ```shell
 # Apply networking capability
-kubectl apply -f configuration/networking/composition/kong.yaml
+kubectl apply -f configuration/networking/composition/kong-olm.yaml
 kubectl apply -f configuration/networking/definition.yaml
 kubectl apply -f examples/networking.yaml
 
+# Apply logging capability
+kubectl apply -f configuration/logging/composition/eck-olm.yaml
+kubectl apply -f configuration/logging/definition.yaml
+kubectl apply -f examples/logging.yaml
+
+# Verify
 kubectl get networkingclaims
 kubectl get networkings
 kubectl get kong
-kubectl get subscription -n operators
-
-# Apply logging capability
-kubectl apply -f configuration/logging/composition/eck.yaml
-kubectl apply -f configuration/logging/definition.yaml
-kubectl apply -f examples/logging.yaml
 
 kubectl get loggingclaims
 kubectl get loggings
 kubectl get elasticsearch
 kubectl get kibana
+
 kubectl get subscription -n operators
+kubectl get csv -n operators
+```
+
+## Play with Capabilities (ODLM)
+
+```shell
+# Apply networking capability
+kubectl apply -f configuration/networking/composition/kong-odlm.yaml
+kubectl apply -f configuration/networking/definition.yaml
+kubectl apply -f examples/networking.yaml
+
+# Apply logging capability
+kubectl apply -f configuration/logging/composition/eck-odlm.yaml
+kubectl apply -f configuration/logging/definition.yaml
+kubectl apply -f examples/logging.yaml
+
+# Verify
+kubectl get networkingclaims
+kubectl get networkings
+kubectl get kong
+
+kubectl get loggingclaims
+kubectl get loggings
+kubectl get elasticsearch
+kubectl get kibana
+
+kubectl get opcon
+kubectl get opreg
+kubectl get opreq
+kubectl get subscription
+kubectl get csv
 ```
 
 ## Clean up

@@ -1,0 +1,90 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: capabilities-shim-odlm
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  - configmaps
+  verbs:
+  - '*'
+- apiGroups:
+  - "operators.coreos.com"
+  resources:
+  - subscriptions
+  - operatorgroups
+  - installplans
+  - clusterserviceversions
+  verbs:
+  - '*'
+- apiGroups:
+  - "operator.ibm.com"
+  resources:
+  - operandrequests
+  - operandrequests/status
+  verbs:
+  - '*'
+- apiGroups:
+  - "charts.helm.k8s.io"
+  resources:
+  - kongs
+  verbs:
+  - '*'
+- apiGroups:
+  - "elasticsearch.k8s.elastic.co"
+  resources:
+  - elasticsearches
+  verbs:
+  - '*'
+- apiGroups:
+  - "kibana.k8s.elastic.co"
+  resources:
+  - kibanas
+  verbs:
+  - '*'
+- apiGroups:
+  - "apm.k8s.elastic.co"
+  resources:
+  - apmservers
+  verbs:
+  - '*'
+- apiGroups:
+  - "agent.k8s.elastic.co"
+  resources:
+  - agents
+  verbs:
+  - '*'
+- apiGroups:
+  - "maps.k8s.elastic.co"
+  resources:
+  - elasticmapsservers
+  verbs:
+  - '*'
+- apiGroups:
+  - "beat.k8s.elastic.co"
+  resources:
+  - beats
+  verbs:
+  - '*'
+- apiGroups:
+  - "enterprisesearch.k8s.elastic.co"
+  resources:
+  - enterprisesearches
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: capabilities-shim-odlm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: capabilities-shim-odlm
+subjects:
+- kind: ServiceAccount
+  namespace: odlm
+  name: operand-deployment-lifecycle-manager

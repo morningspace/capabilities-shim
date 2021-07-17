@@ -1,26 +1,24 @@
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
-  name: olm-capabilities-shim-resources
-  namespace: operators
+  name: capabilities-shim-resources
 rules:
 - apiGroups:
-  - operators.coreos.com
+  - kubernetes.crossplane.io
   resources:
-  - subscriptions
+  - objects
   verbs:
   - '*'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: olm-capabilities-shim-resources
-  namespace: operators
+  name: capabilities-shim-resources
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: olm-capabilities-shim-resources
+  kind: ClusterRole
+  name: capabilities-shim-resources
 subjects:
 - kind: ServiceAccount
   namespace: crossplane-system

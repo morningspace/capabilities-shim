@@ -32,4 +32,35 @@ kubectl proxy --port=8081
 
 # Launch out-cluster provider
 make run
+
+# Apply provider config and rbac
+kubectl apply -f examples/provider/config.yaml
+kubectl apply -f configuration/rbac-objects.yaml
+
+# Apply networking capability
+kubectl apply -f configuration/networking/composition/kong.yaml
+kubectl apply -f configuration/networking/definition.yaml
+kubectl apply -f examples/networking.yaml
+
+kubectl get networkingclaims
+kubectl get networkings
+kubectl get kong
+kubectl get subscription -n operators
+
+# Apply logging capability
+kubectl apply -f configuration/logging/composition/eck.yaml
+kubectl apply -f configuration/logging/definition.yaml
+kubectl apply -f examples/logging.yaml
+
+kubectl get loggingclaims
+kubectl get loggings
+kubectl get elasticsearch
+kubectl get kibana
+kubectl get subscription -n operators
+
+# Delete networking capability
+kubectl delete networkingclaim my-networking-stack
+
+# Delete logging capability
+kubectl delete loggingclaim my-logging-stack
 ```

@@ -8,70 +8,88 @@ spec:
     kind: Networking
   resources:
   - base:
-      apiVersion: operators.coreos.com/v1alpha1
-      kind: Subscription
-      metadata:
-        name: example-kong
-        namespace: operators
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
       spec:
-        channel: alpha
-        name: kong
-        source: operatorhubio-catalog
-        sourceNamespace: olm
-    name: subscription
+        forProvider:
+          manifest:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+              namespace: operators
+            spec:
+              channel: alpha
+              name: kong
+              source: operatorhubio-catalog
+              sourceNamespace: olm
     patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
       toFieldPath: metadata.name
       transforms:
       - type: string
         string:
-          fmt: '%s-kong'
-    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/operator-namespace]
-      toFieldPath: metadata.namespace
+          fmt: 'sub-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s'
     readinessChecks:
-    - type: MatchString
-      fieldPath: "status.state"
-      matchString: "AtLatestKnown"
+    - type: None
   - base:
-      apiVersion: charts.helm.k8s.io/v1alpha1
-      kind: Kong
-      metadata:
-        name: example-kong
-        namespace: default
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
       spec:
-        proxy:
-          type: NodePort
-        env:
-          prefix: /kong_prefix/
-        resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-        ingressController:
-          enabled: true
-          installCRDs: false
-    name: kong
+        forProvider:
+          manifest:
+            apiVersion: charts.helm.k8s.io/v1alpha1
+            kind: Kong
+            metadata:
+              namespace: default
+            spec:
+              proxy:
+                type: NodePort
+              env:
+                prefix: /kong_prefix/
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+              ingressController:
+                enabled: true
+                installCRDs: false
     patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
       toFieldPath: metadata.name
       transforms:
       - type: string
         string:
-          fmt: '%s-kong'
+          fmt: 'kong-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s'
     - fromFieldPath: spec.claimRef.namespace
-      toFieldPath: metadata.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
     - fromFieldPath: spec.proxyType
-      toFieldPath: spec.proxy.type
+      toFieldPath: spec.forProvider.manifest.spec.proxy.type
     - fromFieldPath: spec.resources.limits.cpu
-      toFieldPath: spec.resources.limits.cpu
+      toFieldPath: spec.forProvider.manifest.spec.resources.limits.cpu
     - fromFieldPath: spec.resources.limits.memory
-      toFieldPath: spec.resources.limits.memory
+      toFieldPath: spec.forProvider.manifest.spec.resources.limits.memory
     - fromFieldPath: spec.resources.requests.cpu
-      toFieldPath: spec.resources.requests.cpu
+      toFieldPath: spec.forProvider.manifest.spec.resources.requests.cpu
     - fromFieldPath: spec.resources.requests.memory
-      toFieldPath: spec.resources.requests.memory
+      toFieldPath: spec.forProvider.manifest.spec.resources.requests.memory
     readinessChecks:
     - type: None

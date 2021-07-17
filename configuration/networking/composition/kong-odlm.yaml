@@ -38,6 +38,8 @@ spec:
           fmt: '%s'
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
+    - fromFieldPath: spec.proxyType
+      toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kong.proxy.type
     readinessChecks:
     - type: None
   - base:
@@ -91,9 +93,6 @@ spec:
               requests:
               - operands:
                 - name: kong
-                  kind: Kong
-                  apiVersion: charts.helm.k8s.io/v1alpha1
-                  spec: {}
     patches:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
@@ -119,12 +118,6 @@ spec:
           fmt: '%s'
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.spec.requests[0].registryNamespace
-    - fromFieldPath: metadata.name
-      toFieldPath: spec.forProvider.manifest.spec.requests[0].operands[0].instanceName
-      transforms:
-      - type: string
-        string:
-          fmt: 'kong-%s'
     readinessChecks:
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.phase

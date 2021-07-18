@@ -103,12 +103,6 @@ spec:
         string:
           fmt: 'opreq-%s'
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.annotations[kubernetes.crossplane.io/depends-on]
-      transforms:
-      - type: string
-        string:
-          fmt: 'objects.kubernetes.crossplane.io/opcon-%s,objects.kubernetes.crossplane.io/opreg-%s'
-    - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
       transforms:
       - type: string

@@ -42,8 +42,10 @@ curl -L https://github.com/operator-framework/operator-lifecycle-manager/release
 
 Install ODLM:
 ```shell
-curl -L https://raw.githubusercontent.com/morningspace/capabilities-shim/main/configuration/odlm/deployment.yaml | kubectl apply -f -
-curl -L https://raw.githubusercontent.com/morningspace/capabilities-shim/main/configuration/odlm/rbac.yaml | kubectl apply -f -
+# curl -L https://github.com/morningspace/capabilities-shim/releases/download/v0.0.1/odlm-deployment.yaml | kubectl apply -f -
+# curl -L https://github.com/morningspace/capabilities-shim/releases/download/v0.0.1/odlm-rbac.yaml | kubectl apply -f -
+kubectl apply -f configuration/odlm/odlm-deployment.yaml
+kubectl apply -f configuration/odlm/odlm-rbac.yaml
 ```
 
 Launch provider outside kind:
@@ -53,6 +55,8 @@ make run
 
 Setup provider config and rbac:
 ```shell
-curl -L https://raw.githubusercontent.com/morningspace/capabilities-shim/main/configuration/provider/config.yaml | kubectl apply -f -
-curl -L https://raw.githubusercontent.com/morningspace/capabilities-shim/main/configuration/provider/rbac.yaml | kubectl apply -f -
+# curl -L https://github.com/morningspace/capabilities-shim/releases/download/v0.0.1/provide-config.yaml | kubectl apply -f -
+# curl -L https://github.com/morningspace/capabilities-shim/releases/download/v0.0.1/provide-rbac.yaml | kubectl apply -f -
+kubectl apply -f configuration/provider/provider-config.yaml
+kubectl apply -f configuration/provider/provider-rbac.yaml
 ```

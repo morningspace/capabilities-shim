@@ -38,7 +38,46 @@ spec:
         string:
           fmt: '%s'
     readinessChecks:
-    - type: None
+    - type: NonEmpty
+      fieldPath: status.atProvider.manifest.status.currentCSV
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      metadata:
+        annotations:
+          kubernetes.crossplane.io/managementType: "observable_and_deletable"
+      spec:
+        dependencies:
+        - fromObject:
+            apiVersion: kubernetes.crossplane.io/v1alpha1
+            kind: Object
+            fieldPath: status.atProvider.manifest.status.currentCSV
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        forProvider:
+          manifest:
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: ClusterServiceVersion
+            metadata:
+              namespace: operators
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'csv-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.dependencies[0].fromObject.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'sub-%s'
+    readinessChecks:
+    - type: MatchString
+      fieldPath: status.atProvider.manifest.status.phase
+      matchString: Succeeded
   - base:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object

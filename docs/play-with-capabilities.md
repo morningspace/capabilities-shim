@@ -24,6 +24,8 @@ kubectl get kibana
 
 kubectl get subscription -n operators
 kubectl get csv -n operators
+
+kubectl get objects
 ```
 
 For ODLM:
@@ -53,6 +55,8 @@ kubectl get opreg
 kubectl get opreq
 kubectl get subscription
 kubectl get csv
+
+kubectl get objects
 ```
 
 Clean up

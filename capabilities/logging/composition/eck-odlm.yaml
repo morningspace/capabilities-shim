@@ -49,9 +49,9 @@ spec:
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
-    - fromFieldPath: spec.esVersion
+    - fromFieldPath: spec.parameters.esVersion
       toFieldPath: spec.forProvider.manifest.spec.services[0].spec.elasticsearch.version
-    - fromFieldPath: spec.kibanaVersion
+    - fromFieldPath: spec.parameters.kibanaVersion
       toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kibana.version
     readinessChecks:
     - type: None

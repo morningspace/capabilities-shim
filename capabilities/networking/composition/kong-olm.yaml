@@ -123,15 +123,15 @@ spec:
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
-    - fromFieldPath: spec.proxyType
+    - fromFieldPath: spec.parameters.proxyType
       toFieldPath: spec.forProvider.manifest.spec.proxy.type
-    - fromFieldPath: spec.resources.limits.cpu
+    - fromFieldPath: spec.parameters.resources.limits.cpu
       toFieldPath: spec.forProvider.manifest.spec.resources.limits.cpu
-    - fromFieldPath: spec.resources.limits.memory
+    - fromFieldPath: spec.parameters.resources.limits.memory
       toFieldPath: spec.forProvider.manifest.spec.resources.limits.memory
-    - fromFieldPath: spec.resources.requests.cpu
+    - fromFieldPath: spec.parameters.resources.requests.cpu
       toFieldPath: spec.forProvider.manifest.spec.resources.requests.cpu
-    - fromFieldPath: spec.resources.requests.memory
+    - fromFieldPath: spec.parameters.resources.requests.memory
       toFieldPath: spec.forProvider.manifest.spec.resources.requests.memory
     readinessChecks:
     - fieldPath: status.atProvider.manifest.status.deployedRelease

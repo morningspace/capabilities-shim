@@ -40,7 +40,7 @@ spec:
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
-    - fromFieldPath: spec.proxyType
+    - fromFieldPath: spec.parameters.proxyType
       toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kong.proxy.type
     readinessChecks:
     - type: None

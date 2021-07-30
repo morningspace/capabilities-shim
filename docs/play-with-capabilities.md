@@ -3,14 +3,14 @@
 For OLM:
 ```shell
 # Apply networking capability
-kubectl apply -f configuration/networking/composition/kong-olm.yaml
-kubectl apply -f configuration/networking/definition.yaml
-kubectl apply -f examples/networking.yaml
+kubectl apply -f capabilities/networking/composition/kong-olm.yaml
+kubectl apply -f capabilities/networking/definition.yaml
+kubectl apply -f demo/examples/networking-olm.yaml
 
 # Apply logging capability
-kubectl apply -f configuration/logging/composition/eck-olm.yaml
-kubectl apply -f configuration/logging/definition.yaml
-kubectl apply -f examples/logging.yaml
+kubectl apply -f capabilities/logging/composition/eck-olm.yaml
+kubectl apply -f capabilities/logging/definition.yaml
+kubectl apply -f demo/examples/logging-olm.yaml
 
 # Verify
 kubectl get networkingclaims
@@ -31,14 +31,14 @@ kubectl get objects
 For ODLM:
 ```shell
 # Apply networking capability
-kubectl apply -f configuration/networking/composition/kong-odlm.yaml
-kubectl apply -f configuration/networking/definition.yaml
-kubectl apply -f examples/networking.yaml
+kubectl apply -f capabilities/networking/composition/kong-odlm.yaml
+kubectl apply -f capabilities/networking/definition.yaml
+kubectl apply -f demo/examples/networking-odlm.yaml
 
 # Apply logging capability
-kubectl apply -f configuration/logging/composition/eck-odlm.yaml
-kubectl apply -f configuration/logging/definition.yaml
-kubectl apply -f examples/logging.yaml
+kubectl apply -f capabilities/logging/composition/eck-odlm.yaml
+kubectl apply -f capabilities/logging/definition.yaml
+kubectl apply -f demo/examples/logging-odlm.yaml
 
 # Verify
 kubectl get networkingclaims

@@ -31,7 +31,6 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
@@ -68,7 +67,6 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
@@ -98,17 +96,12 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
           fmt: 'opreq-%s'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
-      transforms:
-      - type: string
-        string:
-          fmt: '%s'
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
     - fromFieldPath: spec.claimRef.name

@@ -31,5 +31,5 @@ spec:
                     description: The Kibana version
                     type: string
                 required:
-                - esVersion
-                - kibanaVersion
+                  - esVersion
+                  - kibanaVersion

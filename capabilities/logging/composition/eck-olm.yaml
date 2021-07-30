@@ -1,7 +1,10 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: loggings.capabilities.morningspace.io
+  name: loggings.capabilities.olm.morningspace.io
+  labels:
+    capability: logging
+    provider: olm
 spec:
   compositeTypeRef:
     apiVersion: capabilities.morningspace.io/v1alpha1
@@ -26,17 +29,12 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
           fmt: 'sub-%s'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
-      transforms:
-      - type: string
-        string:
-          fmt: '%s'
     readinessChecks:
     - type: NonEmpty
       fieldPath: status.atProvider.manifest.status.currentCSV
@@ -63,7 +61,6 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
@@ -82,6 +79,11 @@ spec:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
       spec:
+        dependencies:
+        - fromObject:
+            apiVersion: kubernetes.crossplane.io/v1alpha1
+            kind: Object
+            fieldPath: status.atProvider.manifest.status.phase
         forProvider:
           manifest:
             apiVersion: elasticsearch.k8s.elastic.co/v1
@@ -97,17 +99,18 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
           fmt: 'elasticsearch-%s'
     - fromFieldPath: metadata.name
-      toFieldPath: spec.forProvider.manifest.metadata.name
+      toFieldPath: spec.dependencies[0].fromObject.name
       transforms:
       - type: string
         string:
-          fmt: '%s'
+          fmt: 'csv-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
     - fromFieldPath: spec.esVersion
@@ -123,6 +126,11 @@ spec:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
       spec:
+        dependencies:
+        - fromObject:
+            apiVersion: kubernetes.crossplane.io/v1alpha1
+            kind: Object
+            fieldPath: status.atProvider.manifest.status.phase
         forProvider:
           manifest:
             apiVersion: kibana.k8s.elastic.co/v1
@@ -134,27 +142,24 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
           fmt: 'kibana-%s'
     - fromFieldPath: metadata.name
-      toFieldPath: spec.forProvider.manifest.metadata.name
+      toFieldPath: spec.dependencies[0].fromObject.name
       transforms:
       - type: string
         string:
-          fmt: '%s'
+          fmt: 'csv-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
     - fromFieldPath: spec.kibanaVersion
       toFieldPath: spec.forProvider.manifest.spec.version
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.spec.elasticsearchRef.name
-      transforms:
-      - type: string
-        string:
-          fmt: '%s'
     readinessChecks:
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.associationStatus

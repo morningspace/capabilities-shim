@@ -1,7 +1,10 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: loggings.capabilities.morningspace.io
+  name: loggings.capabilities.odlm.morningspace.io
+  labels:
+    capability: logging
+    provider: odlm
 spec:
   compositeTypeRef:
     apiVersion: capabilities.morningspace.io/v1alpha1

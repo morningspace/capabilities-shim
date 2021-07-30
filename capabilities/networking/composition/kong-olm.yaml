@@ -1,7 +1,10 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: networkings.capabilities.morningspace.io
+  name: networkings.capabilities.olm.morningspace.io
+  labels:
+    capability: networking
+    provider: olm
 spec:
   compositeTypeRef:
     apiVersion: capabilities.morningspace.io/v1alpha1
@@ -26,17 +29,12 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
           fmt: 'sub-%s'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
-      transforms:
-      - type: string
-        string:
-          fmt: '%s'
     readinessChecks:
     - type: NonEmpty
       fieldPath: status.atProvider.manifest.status.currentCSV
@@ -63,7 +61,6 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
@@ -112,23 +109,18 @@ spec:
     - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
       toFieldPath: spec.providerConfigRef.name
     - fromFieldPath: metadata.name
-      toFieldPath: metadata.name
       transforms:
       - type: string
         string:
           fmt: 'kong-%s'
-    - fromFieldPath: metadata.name
-      toFieldPath: spec.forProvider.manifest.metadata.name
-      transforms:
-      - type: string
-        string:
-          fmt: '%s'
     - fromFieldPath: metadata.name
       toFieldPath: spec.dependencies[0].fromObject.name
       transforms:
       - type: string
         string:
           fmt: 'csv-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
     - fromFieldPath: spec.proxyType

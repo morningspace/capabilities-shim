@@ -8,3 +8,7 @@ metadata:
   namespace: default
 spec:
   proxyType: NodePort
+  compositionSelector:
+    matchLabels:
+      capability: networking
+      provider: odlm

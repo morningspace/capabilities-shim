@@ -21,24 +21,27 @@ spec:
           spec:
             type: object
             properties:
-              proxyType:
-                description: The proxy type
-                type: string
-              resources:
-                description: The resource declaration
+              parameters:
                 type: object
                 properties:
-                  limits:
+                  proxyType:
+                    description: The proxy type
+                    type: string
+                  resources:
+                    description: The resource declaration
                     type: object
                     properties:
-                      cpu:
-                        type: string
-                      memory:
-                        type: string
-                  requests:
-                    type: object
-                    properties:
-                      cpu:
-                        type: string
-                      memory:
-                        type: string
+                      limits:
+                        type: object
+                        properties:
+                          cpu:
+                            type: string
+                          memory:
+                            type: string
+                      requests:
+                        type: object
+                        properties:
+                          cpu:
+                            type: string
+                          memory:
+                            type: string

@@ -21,12 +21,15 @@ spec:
           spec:
             type: object
             properties:
-              esVersion:
-                description: The Elasticsearch version
-                type: string
-              kibanaVersion:
-                description: The Kibana version
-                type: string
-            required:
-              - esVersion
-              - kibanaVersion
+              parameters:
+                type: object
+                properties:
+                  esVersion:
+                    description: The Elasticsearch version
+                    type: string
+                  kibanaVersion:
+                    description: The Kibana version
+                    type: string
+                required:
+                - esVersion
+                - kibanaVersion

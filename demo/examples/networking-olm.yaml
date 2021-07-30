@@ -7,7 +7,8 @@ metadata:
   name: my-networking-stack
   namespace: default
 spec:
-  proxyType: NodePort
+  parameters:
+    proxyType: NodePort
   compositionSelector:
     matchLabels:
       capability: networking

@@ -1,0 +1,139 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: alls.capabilities.odlm.morningspace.io
+  labels:
+    capability: all
+    provider: odlm
+spec:
+  compositeTypeRef:
+    apiVersion: capabilities.morningspace.io/v1alpha1
+    kind: All
+  resources:
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      metadata:
+        annotations:
+          kubernetes.crossplane.io/managementType: "undeletable"
+      spec:
+        forProvider:
+          manifest:
+            apiVersion: operator.ibm.com/v1alpha1
+            kind: OperandConfig
+            metadata: {}
+            spec:
+              services:
+              - name: elastic-cloud-eck
+                spec:
+                  elasticsearch:
+                    nodeSets:
+                    - name: default
+                      count: 1
+                      config:
+                        node.store.allow_mmap: false
+                  kibana:
+                    count: 1
+                    elasticsearchRef:
+                      name: elasticsearch-sample
+              - name: kong
+                spec:
+                  kong: {}
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'opcon-%s'
+    - fromFieldPath: spec.claimRef.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
+    - fromFieldPath: spec.parameters.esVersion
+      toFieldPath: spec.forProvider.manifest.spec.services[0].spec.elasticsearch.version
+    - fromFieldPath: spec.parameters.kibanaVersion
+      toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kibana.version
+    - fromFieldPath: spec.parameters.proxyType
+      toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kong.proxy.type
+    readinessChecks:
+    - type: None
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      metadata:
+        annotations:
+          kubernetes.crossplane.io/managementType: "undeletable"
+      spec:
+        forProvider:
+          manifest:
+            apiVersion: operator.ibm.com/v1alpha1
+            kind: OperandRegistry
+            metadata: {}
+            spec:
+              operators:
+              - name: elastic-cloud-eck
+                channel: stable
+                packageName: elastic-cloud-eck
+                scope: public
+                sourceName: operatorhubio-catalog
+                sourceNamespace: olm
+              - name: kong
+                channel: alpha
+                packageName: kong
+                scope: public
+                sourceName: operatorhubio-catalog
+                sourceNamespace: olm
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'opreg-%s'
+    - fromFieldPath: spec.claimRef.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.spec.operators[0].namespace
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.spec.operators[1].namespace
+    readinessChecks:
+    - type: None
+  - base:
+      apiVersion: kubernetes.crossplane.io/v1alpha1
+      kind: Object
+      spec:
+        forProvider:
+          manifest:
+            apiVersion: operator.ibm.com/v1alpha1
+            kind: OperandRequest
+            metadata: {}
+            spec:
+              requests:
+              - operands:
+                - name: kong
+                - name: elastic-cloud-eck
+    patches:
+    - fromFieldPath: metadata.annotations[capabilities.morningspace.io/provider-config]
+      toFieldPath: spec.providerConfigRef.name
+    - fromFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'opreq-%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.forProvider.manifest.metadata.name
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.metadata.namespace
+    - fromFieldPath: spec.claimRef.name
+      toFieldPath: spec.forProvider.manifest.spec.requests[0].registry
+    - fromFieldPath: spec.claimRef.namespace
+      toFieldPath: spec.forProvider.manifest.spec.requests[0].registryNamespace
+    readinessChecks:
+    - type: MatchString
+      fieldPath: status.atProvider.manifest.status.phase
+      matchString: Running

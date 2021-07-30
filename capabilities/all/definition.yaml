@@ -1,0 +1,68 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: all.capabilities.morningspace.io
+spec:
+  group: capabilities.morningspace.io
+  names:
+    kind: All
+    plural: alls
+  claimNames:
+    kind: AllClaim
+    plural: allclaims
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              capabilities:
+                type: object
+                properties:
+                  logging:
+                    type: object
+                    properties:
+                      parameters:
+                        type: object
+                        properties:
+                          esVersion:
+                            description: The Elasticsearch version
+                            type: string
+                          kibanaVersion:
+                            description: The Kibana version
+                            type: string
+                        required:
+                        - esVersion
+                        - kibanaVersion
+                  networking:
+                    type: object
+                    properties:
+                      parameters:
+                        type: object
+                        properties:
+                          proxyType:
+                            description: The proxy type
+                            type: string
+                          resources:
+                            description: The resource declaration
+                            type: object
+                            properties:
+                              limits:
+                                type: object
+                                properties:
+                                  cpu:
+                                    type: string
+                                  memory:
+                                    type: string
+                              requests:
+                                type: object
+                                properties:
+                                  cpu:
+                                    type: string
+                                  memory:
+                                    type: string

@@ -82,6 +82,11 @@ spec:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
       spec:
+        dependencies:
+        - fromObject:
+            apiVersion: kubernetes.crossplane.io/v1alpha1
+            kind: Object
+            fieldPath: status.atProvider.manifest.status.phase
         forProvider:
           manifest:
             apiVersion: charts.helm.k8s.io/v1alpha1
@@ -118,6 +123,12 @@ spec:
       - type: string
         string:
           fmt: '%s'
+    - fromFieldPath: metadata.name
+      toFieldPath: spec.dependencies[0].fromObject.name
+      transforms:
+      - type: string
+        string:
+          fmt: 'csv-%s'
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
     - fromFieldPath: spec.proxyType

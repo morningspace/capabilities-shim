@@ -35,6 +35,10 @@ spec:
           fmt: 'sub-%s-eck'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-eck'
     readinessChecks:
     - type: NonEmpty
       fieldPath: status.atProvider.manifest.status.currentCSV
@@ -192,6 +196,10 @@ spec:
           fmt: 'sub-%s-kong'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-kong'
     readinessChecks:
     - type: NonEmpty
       fieldPath: status.atProvider.manifest.status.currentCSV

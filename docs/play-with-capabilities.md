@@ -12,7 +12,15 @@ kubectl apply -f capabilities/logging/composition/eck-olm.yaml
 kubectl apply -f capabilities/logging/definition.yaml
 kubectl apply -f demo/examples/logging-olm.yaml
 
+# Apply all capabilities
+kubectl apply -f capabilities/all/composition/all-olm.yaml
+kubectl apply -f capabilities/all/definition.yaml
+kubectl apply -f demo/examples/all-olm.yaml
+
 # Verify
+kubectl get allclaims
+kubectl get alls
+
 kubectl get networkingclaims
 kubectl get networkings
 kubectl get kong
@@ -40,7 +48,15 @@ kubectl apply -f capabilities/logging/composition/eck-odlm.yaml
 kubectl apply -f capabilities/logging/definition.yaml
 kubectl apply -f demo/examples/logging-odlm.yaml
 
+# Apply all capabilities
+kubectl apply -f capabilities/all/composition/all-odlm.yaml
+kubectl apply -f capabilities/all/definition.yaml
+kubectl apply -f demo/examples/all-odlm.yaml
+
 # Verify
+kubectl get allclaims
+kubectl get alls
+
 kubectl get networkingclaims
 kubectl get networkings
 kubectl get kong
@@ -66,4 +82,7 @@ kubectl delete networkingclaim my-networking-stack
 
 # Delete logging capability
 kubectl delete loggingclaim my-logging-stack
+
+# Delete all capabilities
+kubectl delete allclaim my-all-stack
 ```

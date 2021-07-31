@@ -45,7 +45,7 @@ spec:
         annotations:
           kubernetes.crossplane.io/managementType: "observable_and_deletable"
       spec:
-        dependencies:
+        references:
         - fromObject:
             apiVersion: kubernetes.crossplane.io/v1alpha1
             kind: Object
@@ -66,7 +66,7 @@ spec:
         string:
           fmt: 'csv-%s'
     - fromFieldPath: metadata.name
-      toFieldPath: spec.dependencies[0].fromObject.name
+      toFieldPath: spec.references[0].fromObject.name
       transforms:
       - type: string
         string:
@@ -79,7 +79,7 @@ spec:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
       spec:
-        dependencies:
+        references:
         - fromObject:
             apiVersion: kubernetes.crossplane.io/v1alpha1
             kind: Object
@@ -104,7 +104,7 @@ spec:
         string:
           fmt: 'elasticsearch-%s'
     - fromFieldPath: metadata.name
-      toFieldPath: spec.dependencies[0].fromObject.name
+      toFieldPath: spec.references[0].fromObject.name
       transforms:
       - type: string
         string:
@@ -126,7 +126,7 @@ spec:
       apiVersion: kubernetes.crossplane.io/v1alpha1
       kind: Object
       spec:
-        dependencies:
+        references:
         - fromObject:
             apiVersion: kubernetes.crossplane.io/v1alpha1
             kind: Object
@@ -147,7 +147,7 @@ spec:
         string:
           fmt: 'kibana-%s'
     - fromFieldPath: metadata.name
-      toFieldPath: spec.dependencies[0].fromObject.name
+      toFieldPath: spec.references[0].fromObject.name
       transforms:
       - type: string
         string:

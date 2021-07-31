@@ -51,11 +51,11 @@ spec:
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
       toFieldPath: spec.forProvider.manifest.metadata.namespace
-    - fromFieldPath: spec.parameters.esVersion
+    - fromFieldPath: spec.capabilities.logging.parameters.esVersion
       toFieldPath: spec.forProvider.manifest.spec.services[0].spec.elasticsearch.version
-    - fromFieldPath: spec.parameters.kibanaVersion
+    - fromFieldPath: spec.capabilities.logging.parameters.kibanaVersion
       toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kibana.version
-    - fromFieldPath: spec.parameters.proxyType
+    - fromFieldPath: spec.capabilities.networking.parameters.proxyType
       toFieldPath: spec.forProvider.manifest.spec.services[0].spec.kong.proxy.type
     readinessChecks:
     - type: None

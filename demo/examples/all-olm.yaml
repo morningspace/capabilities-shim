@@ -1,0 +1,20 @@
+apiVersion: capabilities.morningspace.io/v1alpha1
+kind: AllClaim
+metadata:
+  annotations:
+    capabilities.morningspace.io/provider-config: kubernetes-provider
+  name: my-all-stack
+  namespace: default
+spec:
+  capabilities:
+    logging:
+      parameters:
+        esVersion: 7.13.3
+        kibanaVersion: 7.13.3
+    networking:
+      parameters:
+        proxyType: NodePort
+  compositionSelector:
+    matchLabels:
+      capability: all
+      provider: olm

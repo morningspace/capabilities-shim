@@ -151,7 +151,7 @@ spec:
       transforms:
       - type: string
         string:
-          fmt: 'csv-%s-sub'
+          fmt: 'csv-%s-eck'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace

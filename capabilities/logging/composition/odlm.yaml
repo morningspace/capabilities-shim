@@ -15,7 +15,7 @@ spec:
       kind: Object
       metadata:
         annotations:
-          kubernetes.crossplane.io/managementType: "undeletable"
+          kubernetes.crossplane.io/managementType: "Undeletable"
       spec:
         forProvider:
           manifest:
@@ -59,7 +59,7 @@ spec:
       kind: Object
       metadata:
         annotations:
-          kubernetes.crossplane.io/managementType: "undeletable"
+          kubernetes.crossplane.io/managementType: "Undeletable"
       spec:
         forProvider:
           manifest:

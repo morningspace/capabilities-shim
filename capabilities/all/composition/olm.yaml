@@ -47,7 +47,7 @@ spec:
       kind: Object
       metadata:
         annotations:
-          kubernetes.crossplane.io/managementType: "observable_and_deletable"
+          kubernetes.crossplane.io/managementType: "ObservableAndDeletable"
       spec:
         references:
         - fromObject:
@@ -208,7 +208,7 @@ spec:
       kind: Object
       metadata:
         annotations:
-          kubernetes.crossplane.io/managementType: "observable_and_deletable"
+          kubernetes.crossplane.io/managementType: "ObservableAndDeletable"
       spec:
         references:
         - fromObject:

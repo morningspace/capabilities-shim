@@ -8,5 +8,5 @@ spec:
   crossplane:
     version: ">=v1.0.0-0"
   dependsOn:
-    - provider: quay.io/moyingbj/provider-kubernetes-amd64
+    - provider: quay.io/moyingbj/provider-kubernetes-amd64:v0.0.0-29.gfc478ce
       version: ">=v0.0.0"

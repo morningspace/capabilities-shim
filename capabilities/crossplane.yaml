@@ -1,0 +1,12 @@
+apiVersion: meta.pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: capabilities-shim
+  annotations:
+    provider: kubernetes
+spec:
+  crossplane:
+    version: ">=v1.0.0-0"
+  dependsOn:
+    - provider: quay.io/morningspace/provider-kubernetes
+      version: ">=v0.0.0"

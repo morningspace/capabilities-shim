@@ -18,10 +18,7 @@ kubectl apply -f capabilities/all/definition.yaml
 kubectl apply -f demo/examples/all/olm.yaml
 
 # Verify
-kubectl get kong
-
-kubectl get elasticsearch
-kubectl get kibana
+kubectl get objects
 
 kubectl get subscription -n operators
 kubectl get csv -n operators
@@ -29,7 +26,10 @@ kubectl get csv -n operators
 kubectl get pods
 kubectl get pods -n operators
 
-kubectl get objects
+kubectl get kong
+
+kubectl get elasticsearch
+kubectl get kibana
 
 kubectl get networkingclaims
 kubectl get networkings
@@ -59,6 +59,13 @@ kubectl apply -f capabilities/all/definition.yaml
 kubectl apply -f demo/examples/all/odlm.yaml
 
 # Verify
+kubectl get objects
+
+kubectl get subscription
+kubectl get csv
+
+kubectl get pods
+
 kubectl get kong
 
 kubectl get elasticsearch
@@ -67,13 +74,6 @@ kubectl get kibana
 kubectl get opcon
 kubectl get opreg
 kubectl get opreq
-
-kubectl get subscription
-kubectl get csv
-
-kubectl get pods
-
-kubectl get objects
 
 kubectl get networkingclaims
 kubectl get networkings

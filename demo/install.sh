@@ -302,12 +302,43 @@ function pull-and-load-images {
   info "Pulling and loading images...OK"
 }
 
+####################
+# Print summary after install
+####################
+
+function print-summary {
+  cat << EOF
+
+👏 Congratulations! The capabilities-shim demo environment is ready for use!
+It launched a kind cluster, installed tools and deployed applitions as following:
+- kind ${KIND_VERSION}
+- kubectl ${KUBECTL_VERSION}
+- helm ${HELM3_VERSION}
+- Crossplane ${CROSSPLANE_VERSION}
+- OLM ${OLM_VERSION}
+- ODLM the latest version
+- capabilities-shim ${CAPABILITIES_SHIM_VERSION}
+
+For tools you want to run anywhere, create links in a directory defined in your PATH, e.g:
+ln -s -f ${KUBECTL} /usr/local/bin/kubectl
+ln -s -f ${KIND} /usr/local/bin/kind
+ln -s -f ${HELM} /usr/local/bin/helm
+
+EOF
+}
+
+####################
+# Main entrance
+####################
+
 case $1 in
   "clean")
     install-kind
     kind-down
     ;;
   *)
+    start_time=$SECONDS
+
     install-kind
     install-kubectl
     install-helm
@@ -317,5 +348,9 @@ case $1 in
     install-odlm
     install-capabilities-shim
     pull-and-load-images
+    print-summary
+
+    elapsed_time=$(($SECONDS - $start_time))
+    echo "Total elapsed time: $elapsed_time seconds"
     ;;
 esac

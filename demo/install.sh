@@ -289,6 +289,7 @@ function pull-and-load-images {
   fi
 
   for i in ${REQUIRED_IMAGES[@]+"${REQUIRED_IMAGES[@]}"}; do
+    echo "Pulling and loading image: ${i}"
     if echo "${i}" | grep ":master\s*$" >/dev/null || echo "${i}" | grep ":latest\s*$" >/dev/null || \
       ! ${DOCKER} inspect --type=image "${i}" >/dev/null 2>&1; then
       ${DOCKER} pull "${i}"
@@ -303,6 +304,7 @@ function pull-and-load-images {
 
 case $1 in
   "clean")
+    install-kind
     kind-down
     ;;
   *)

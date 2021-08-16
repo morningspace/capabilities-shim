@@ -217,8 +217,8 @@ function install-olm {
 function install-odlm {
   info "Installing ODLM..."
 
-  ${KUBECTL} --kubeconfig ${KUBECONFIG} apply -f odlm/deployment.yaml
-  ${KUBECTL} --kubeconfig ${KUBECONFIG} apply -f odlm/rbac.yaml
+  ${KUBECTL} --kubeconfig ${KUBECONFIG} apply -f ${ROOT_DIR}/odlm/deployment.yaml
+  ${KUBECTL} --kubeconfig ${KUBECONFIG} apply -f ${ROOT_DIR}/odlm/rbac.yaml
 
   wait-deployment operand-deployment-lifecycle-manager odlm
 

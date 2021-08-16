@@ -32,9 +32,13 @@ spec:
       transforms:
       - type: string
         string:
-          fmt: 'sub-%s'
+          fmt: 'sub-%s-eck'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
+      transforms:
+      - type: string
+        string:
+          fmt: '%s-eck'
     readinessChecks:
     - type: NonEmpty
       fieldPath: status.atProvider.manifest.status.currentCSV
@@ -64,13 +68,13 @@ spec:
       transforms:
       - type: string
         string:
-          fmt: 'csv-%s'
+          fmt: 'csv-%s-eck'
     - fromFieldPath: metadata.name
       toFieldPath: spec.references[0].fromObject.name
       transforms:
       - type: string
         string:
-          fmt: 'sub-%s'
+          fmt: 'sub-%s-eck'
     readinessChecks:
     - type: MatchString
       fieldPath: status.atProvider.manifest.status.phase
@@ -108,7 +112,7 @@ spec:
       transforms:
       - type: string
         string:
-          fmt: 'csv-%s'
+          fmt: 'csv-%s-eck'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace
@@ -151,7 +155,7 @@ spec:
       transforms:
       - type: string
         string:
-          fmt: 'csv-%s'
+          fmt: 'csv-%s-eck'
     - fromFieldPath: metadata.name
       toFieldPath: spec.forProvider.manifest.metadata.name
     - fromFieldPath: spec.claimRef.namespace

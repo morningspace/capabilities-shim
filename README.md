@@ -4,6 +4,8 @@ This repository is used to prove the technical feasibility of composing variant 
 
 It essentially leverages the composing capability provided by [Crossplane](https://crossplane.io/), along with other cloud native install methods such as [Operator Lifecycle Manager (OLM)](https://olm.operatorframework.io/), [Operand Deployment Lifecycle Manager (ODLM)](https://github.com/IBM/operand-deployment-lifecycle-manager), etc. running at backend to provision the actual workloads in a declarative way.
 
+![](docs/images/architecture.png)
+
 ## Getting Started
 
 ### Launch Demo Environment

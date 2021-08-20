@@ -51,7 +51,7 @@ function wait-deployment {
     echo -n "."
     local result=$(${KUBECTL} --kubeconfig ${KUBECONFIG} get deploy $object -n $ns -o jsonpath='{.status.readyReplicas}' 2>/dev/null)
     if [[ $result == 1 ]]; then
-      echo "done"
+      echo " Done"
       break
     fi
     sleep 1
@@ -67,7 +67,7 @@ function wait-package {
     echo -n "."
     local result=$(${KUBECTL} --kubeconfig ${KUBECONFIG} get configuration.pkg.crossplane.io $package -o jsonpath='{range .status.conditions[*]}{.type}:{.status} {end}' 2>/dev/null)
     if [[ $result =~ Installed:True && $result =~ Healthy:True ]]; then
-      echo "done"
+      echo " Done"
       break
     fi
     sleep 1
@@ -181,8 +181,8 @@ function install-crossplane {
   # Update helm repo
   if ! "${HELM}" repo list -o yaml | grep -i "Name:\s*${HELM_REPOSITORY_NAME}\s*$" >/dev/null; then
     ${HELM} repo add "${HELM_REPOSITORY_NAME}" "${HELM_REPOSITORY_URL}"
-    ${HELM} repo update
   fi
+  ${HELM} repo update
 
   # Create namespace if not exists
   ${KUBECTL} --kubeconfig ${KUBECONFIG} get ns "${HELM_RELEASE_NAMESPACE}" >/dev/null 2>&1 || \

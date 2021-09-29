@@ -133,7 +133,7 @@ const (
     // DeletionOrphan means the external resource will orphaned when its managed
     // resource is deleted.
     DeletionOrphan DeletionPolicy = "Orphan"
-
+
     // DeletionDelete means both the external resource will be deleted when its
     // managed resource is deleted.
     DeletionDelete DeletionPolicy = "Delete"

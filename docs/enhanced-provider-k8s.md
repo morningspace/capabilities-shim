@@ -1,3 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Managing Arbitrary Kubernetes Resources Using Crossplane Provider](#managing-arbitrary-kubernetes-resources-using-crossplane-provider)
+  - [About Provider Kubernetes](#about-provider-kubernetes)
+  - [Why Provider Kubernetes](#why-provider-kubernetes)
+  - [Enhanced Provider Kubernetes](#enhanced-provider-kubernetes)
+    - [About The Demo Project](#about-the-demo-project)
+    - [Unmanaged External Ressource](#unmanaged-external-ressource)
+    - [Resource Management Policy](#resource-management-policy)
+    - [ClusterServiceVersion Name](#clusterserviceversion-name)
+    - [Generic References](#generic-references)
+    - [Install Order](#install-order)
+    - [Uninstall Order](#uninstall-order)
+    - [Using Finalizers](#using-finalizers)
+  - [Summary](#summary)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Managing Arbitrary Kubernetes Resources Using Crossplane Provider
 
 This document is aimed to explain how to manage arbitrary Kubernetes resources using Crossplane provider and how to enhance the provider by adding new features such as **resource management policy** and **resource reference** to manage Kubernetes resources more effectively.
